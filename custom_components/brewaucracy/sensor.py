@@ -14,7 +14,7 @@ from homeassistant.util import dt as dt_util
 
 from . import BrewaucracyConfigEntry
 from .coordinator import BrewaucracyCoordinator
-from .ticker import build_ticker
+from .ticker import MAX_STATE_LENGTH, build_ticker
 
 DOMAIN = "brewaucracy"
 VENUE_TZ = ZoneInfo("Pacific/Auckland")
@@ -264,8 +264,11 @@ class BrewaucracyJokeSensor(BrewaucracyEntity):
 
     @property
     def native_value(self) -> str:
-        if not self._section.get("joke"):
+        joke = self._section.get("joke")
+        if not joke:
             return "No joke this week"
+        if len(joke) <= MAX_STATE_LENGTH:
+            return joke
         week_of = _parse_date(self._section.get("week_of"))
         when = f"{week_of.day} {week_of:%B}" if week_of else "this week"
         return f"See Attributes for {when}'s knee-slapper"
