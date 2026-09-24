@@ -1,0 +1,15 @@
+{
+  "domain": "brewaucracy",
+  "name": "Brewaucracy",
+  "codeowners": [
+    "@rhyven"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/rhyven/ha-brewaucracy",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/rhyven/ha-brewaucracy/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "1.0.0"
+}

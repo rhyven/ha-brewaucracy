@@ -4,7 +4,7 @@ A zero-configuration custom integration that turns [Brewaucracy's](https://www.b
 
 News and events are extracted from the email and put through an LLM to summarise into something suitable for a dashboard or announcement.
 
-All the entities are grouped under a single `Brewaucracy` device. The tap list and food trucks are all visible as sensors, while the brewery news, events, and Greig's joke are all attributes under their sensors (as they far surpass the 255 character limit).
+All the entities are grouped under a single `Brewaucracy` device. The tap list and food trucks are all visible as sensors, while the full brewery news, events, and Greig's joke live in attributes under their sensors (as they far surpass the 255 character limit).
 
 Remember that food trucks are on a best-effort basis, and they sometimes need to cancel at the last minute. If an update comes via email, it will be processed and the food truck sensor will be updated - but sometimes these changes are only published on social media which I'm not scraping.
 
@@ -27,23 +27,23 @@ Copy `custom_components/brewaucracy/` to `/config/custom_components/`, restart H
 
 | Entity | State | Attributes |
 | --- | --- | --- |
-| `sensor.brewaucracy_tap_NN` | Beer name, `Empty`, `Not in Service`, or unknown | `class`, `brewery`, `style`, `abv`, `prices`, `takeaway_per_litre`, `currency` |
+| `sensor.brewaucracy_tap_NN` | Beer name, `Empty`, `Not in Service`, or unknown | `tap`, `class`, `brewery`, `style`, `abv`, `prices`, `takeaway_per_litre`, `currency`, `source_fetched_at` |
 | `sensor.brewaucracy_food_truck_today` | Vendor, `No truck - BYO`, or unknown | `date`, `from_time` |
 | `sensor.brewaucracy_food_truck_N_<weekday>` | Vendor, `No truck - BYO`, or unknown | `date`, `from_time` |
-| `sensor.brewaucracy_upcoming_events` | Highlights from each event title | `count`, `items` |
-| `sensor.brewaucracy_brewery_news` | Highlights from each news title | `count`, `items` |
-| `sensor.brewaucracy_weekly_joke` | Pointer to the attribute | `joke` |
+| `sensor.brewaucracy_upcoming_events` | Event titles, as a ticker, or `No events this week` | `count`, `items` |
+| `sensor.brewaucracy_brewery_news` | News titles, as a ticker, or `No news this week` | `count`, `items` |
+| `sensor.brewaucracy_weekly_joke` | Pointer to the attribute, or `No joke this week` | `joke` |
 | `sensor.brewaucracy_committee_minutes` | Issue date | n/a |
 
 The week's food trucks, events, news, joke and newsletter date sensors are in the Diagnostic section of the device page so they stay off auto-generated dashboard views. The tap sensors and Today's Food Truck are not.
 
 ### Taps
 
-Taps are fed from the same source as the taproom menu, with thanks to Greig and Phil, so it's as authoritative as possible. Although the sensors update every 60 seconds, my server refreshes from the data source more slowly, to avoid any impact on Brewaucracy infrastructure. The data is updated every 15 minutes during opening hours, and every 2 hours outside normal opening hours.
+Taps are fed from the same source as the taproom menu, with thanks to Greig and Phil, so it's as authoritative as possible. Although the sensors update every 60 seconds, my server refreshes from the data source more slowly, to avoid any impact on Brewaucracy infrastructure. The data is updated every 10 minutes during opening hours, and every 2 hours outside normal opening hours.
 
 As a keg is emptied and rotated, the tap's status & attributes are updated.
 
-Guest beers carry the brewery as a prefix (i.e., `Peckham's - Classic Apple`), while Brewaucracy house beers show the beer name alone. Tap badges render as `entity_picture`.
+Guest beers carry the brewery as a prefix (e.g., `Peckham's - Classic Apple`), while Brewaucracy house beers show the beer name alone. Tap badges render as `entity_picture`.
 
 ### The Other Sensors
 
@@ -65,14 +65,14 @@ Although the taproom is closed Monday to Wednesday, those three sensors are crea
 
 To populate the `News` and `Events` sensors, the LLM attempts to differentiate between an event happening in the brewery (such as Quiz Night, Oktoberfest), and news regarding the brewery (such as an imminent new release, the last keg of a favourite, or roadworks). 
 
-Generally these run well beyond Home Assistant's 255-character state limit, so we attempt to cram the State with as much of the highlights as possible - fuller text lives within the attributes inside these sensors; you'll need to use templates or dashboards etc to get these details.
+The State of each is a ticker of the item titles, trimmed to fit Home Assistant's 255-character state limit. Up to three titles are shown; with more than three, it just shows the first two followed by `and more!`. The full items (dates, times and body text) live within the attributes inside these sensors; you'll need to use templates or dashboards etc to get these details.
 
 Because I don't modify the dad joke at all, it's generally going to be over the 255-char limit, so the State of the entity simply mentions that a joke exists and to check the attributes for it.
 
 
 ## Availability
 
-Entities become unavailable when the feed cannot be read at all, and otherwise per source block:
+Entities become unavailable when the feed cannot be read or is somehow munted, and otherwise per source block:
 
 | Entities | Timestamp | Window |
 | --- | --- | --- |
@@ -83,4 +83,4 @@ Entities become unavailable when the feed cannot be read at all, and otherwise p
 
 ## Requires
 
-Home Assistant 2026.3 or later.
+Home Assistant 2024.6 or later. The integration icon requires 2026.3 or later, but everything works on the older versions except the icon falls back to a placeholder.
