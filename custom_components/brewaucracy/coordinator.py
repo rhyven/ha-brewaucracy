@@ -17,6 +17,7 @@ FEED_URL = "https://brewaucracy.ericlight.com:23377/v1/taproom.json"
 SCAN_INTERVAL = timedelta(seconds=60)
 REQUEST_TIMEOUT = 30
 SECTIONS = ("taps", "food_trucks", "news")
+CONSECUTIVE_FETCH_FAILURES_TOLERATED_BEFORE_UNAVAILABLE = 3
 
 
 def _require_sections(payload: object) -> dict[str, Any]:
@@ -40,6 +41,7 @@ class BrewaucracyCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         )
         self._session = session
         self._etag: str | None = None
+        self._consecutive_failures = 0
 
     async def _async_update_data(self) -> dict[str, Any]:
         headers = {"If-None-Match": self._etag} if self._etag else {}
@@ -50,13 +52,28 @@ class BrewaucracyCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._session.get(FEED_URL, headers=headers) as response,
             ):
                 if response.status == HTTPStatus.NOT_MODIFIED:
+                    self._consecutive_failures = 0
                     return self.data
                 response.raise_for_status()
                 etag = response.headers.get("ETag")
                 payload = await response.json(content_type=None)
-        except (TimeoutError, aiohttp.ClientError, ValueError) as err:
+            payload = _require_sections(payload)
+        except (TimeoutError, aiohttp.ClientError, ValueError, UpdateFailed) as err:
+            if self.data is not None and (
+                self._consecutive_failures
+                < CONSECUTIVE_FETCH_FAILURES_TOLERATED_BEFORE_UNAVAILABLE
+            ):
+                self._consecutive_failures += 1
+                _LOGGER.warning(
+                    "Cannot read %s (%s); using last known data (failure %d/%d)",
+                    FEED_URL,
+                    err,
+                    self._consecutive_failures,
+                    CONSECUTIVE_FETCH_FAILURES_TOLERATED_BEFORE_UNAVAILABLE,
+                )
+                return self.data
             raise UpdateFailed(f"Cannot read {FEED_URL}: {err}") from err
 
-        payload = _require_sections(payload)
+        self._consecutive_failures = 0
         self._etag = etag
         return payload
