@@ -1,5 +1,7 @@
 # Brewaucracy for Home Assistant
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=rhyven&repository=ha-brewaucracy&category=integration)
+
 A zero-configuration custom integration that turns [Brewaucracy's](https://www.brewaucracy.co.nz) taproom feed and weekly email newsletter into Home Assistant entities - including the tap list, the food truck schedule, events, news and the weekly joke.
 
 News and events are extracted from the email and put through an LLM to summarise into something suitable for a dashboard or announcement.
