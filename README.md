@@ -6,7 +6,7 @@ A zero-configuration custom integration that turns [Brewaucracy's](https://www.b
 
 News and events are extracted from the email and put through an LLM to summarise into something suitable for a dashboard or announcement.
 
-All the entities are grouped under a single `Brewaucracy` device. The tap list and food trucks are all visible as sensors, while the full brewery news, events, and Greig's joke live in attributes under their sensors (as they far surpass the 255 character limit).
+All the entities are grouped under a single `Brewaucracy` device. The tap list and food trucks are all visible as sensors, while the full brewery news, events, and Greig's joke live in attributes under their sensors (as they far surpass the 255 character limit). There's also a preferred vessel size selector, which is only there so your dashboards can display the prices you want to see.
 
 Remember that food trucks are on a best-effort basis, and they sometimes need to cancel at the last minute. If an update comes via email, it will be processed and the food truck sensor will be updated - but sometimes these changes are only published on social media which I'm not scraping.
 
@@ -34,10 +34,11 @@ Copy `custom_components/brewaucracy/` to `/config/custom_components/`, restart H
 | `sensor.brewaucracy_food_truck_N_<weekday>` | Vendor, `No truck - BYO`, or unknown | `date`, `from_time` |
 | `sensor.brewaucracy_upcoming_events` | Event titles, as a ticker, or `No events this week` | `count`, `items` |
 | `sensor.brewaucracy_brewery_news` | News titles, as a ticker, or `No news this week` | `count`, `items` |
-| `sensor.brewaucracy_weekly_joke` | Pointer to the attribute, or `No joke this week` | `joke` |
+| `sensor.brewaucracy_weekly_joke` | The joke itself if short enough; otherwise a pointer to the attribute (or `No joke this week`) | `joke` |
 | `sensor.brewaucracy_committee_minutes` | Issue date | n/a |
+| `select.brewaucracy_preferred_vessel_size` | `280`, `400`, `500` or `568` | n/a |
 
-The week's food trucks, events, news, joke and newsletter date sensors are in the Diagnostic section of the device page so they stay off auto-generated dashboard views. The tap sensors and Today's Food Truck are not.
+The week's food trucks, events, news, joke and newsletter date sensors are in the Diagnostic section of the device page so they stay off auto-generated dashboard views. The tap sensors and Today's Food Truck are not. The vessel size selector is in the Configuration section.
 
 ### Taps
 
@@ -69,7 +70,21 @@ To populate the `News` and `Events` sensors, the LLM attempts to differentiate b
 
 The State of each is a ticker of the item titles, trimmed to fit Home Assistant's 255-character state limit. Up to three titles are shown; with more than three, it just shows the first two followed by `and more!`. The full items (dates, times and body text) live within the attributes inside these sensors; you'll need to use templates or dashboards etc to get these details.
 
-Because I don't modify the dad joke at all, it's generally going to be over the 255-char limit, so the State of the entity simply mentions that a joke exists and to check the attributes for it.
+Because I don't modify the dad joke at all, it's often over the 255-char limit. If the whole joke fits, it's shown as the State of the entity; otherwise the State just mentions that a joke exists and to check the `joke` attribute for it (because a truncated joke is a ruined joke). Either way, the full joke is always in the attribute, and the attribute preserves line breaks while the state drops them.
+
+### Vessel Size
+
+`select.brewaucracy_preferred_vessel_size` is an optional configuration item. It doesn't do anything in the integration itself, but I personally use it as a guide for my Brewaucracy dashboard. Just means you can pick your usual glass size instead of your dashboard trying to display alllll of the prices.
+
+If you normally drink an imperial pint, but Greig won't sell a particular beverage in that size, the following Jinja will make the dashboard fail back to the 280ml.
+
+```jinja
+{% set prices = state_attr('sensor.brewaucracy_tap_01', 'prices') or [] %}
+{% set preferred = states('select.brewaucracy_preferred_vessel_size') | int %}
+{% set at_preferred = prices | selectattr('volume_ml', 'eq', preferred) | map(attribute='amount') | list %}
+{% set at_280 = prices | selectattr('volume_ml', 'eq', 280) | map(attribute='amount') | list %}
+{{ at_preferred[0] if at_preferred else (at_280[0] if at_280 else 'n/a') }}
+```
 
 
 ## Availability

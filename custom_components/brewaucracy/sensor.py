@@ -7,12 +7,11 @@ from zoneinfo import ZoneInfo
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from . import BrewaucracyConfigEntry
+from . import BrewaucracyConfigEntry, brewaucracy_device_info
 from .coordinator import BrewaucracyCoordinator
 from .ticker import MAX_STATE_LENGTH, build_ticker
 
@@ -83,12 +82,7 @@ class BrewaucracyEntity(CoordinatorEntity[BrewaucracyCoordinator], SensorEntity)
 
     def __init__(self, coordinator: BrewaucracyCoordinator) -> None:
         super().__init__(coordinator)
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, DOMAIN)},
-            name="Brewaucracy",
-            manufacturer="Brewaucracy",
-            configuration_url="https://www.brewaucracy.co.nz",
-        )
+        self._attr_device_info = brewaucracy_device_info()
 
     @property
     def available(self) -> bool:

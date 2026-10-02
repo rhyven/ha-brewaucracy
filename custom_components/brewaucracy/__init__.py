@@ -4,12 +4,23 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .coordinator import BrewaucracyCoordinator
 
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+DOMAIN = "brewaucracy"
+PLATFORMS: list[Platform] = [Platform.SELECT, Platform.SENSOR]
 
 type BrewaucracyConfigEntry = ConfigEntry[BrewaucracyCoordinator]
+
+
+def brewaucracy_device_info() -> DeviceInfo:
+    return DeviceInfo(
+        identifiers={(DOMAIN, DOMAIN)},
+        name="Brewaucracy",
+        manufacturer="Brewaucracy",
+        configuration_url="https://www.brewaucracy.co.nz",
+    )
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: BrewaucracyConfigEntry) -> bool:
