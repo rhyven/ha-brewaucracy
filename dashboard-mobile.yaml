@@ -10,7 +10,7 @@ views:
           - type: heading
             heading: Today's Indentured Caterers
           - type: custom:mushroom-template-card
-            entity: sensor.brewaucracy_planned_food_truck_today
+            entity: sensor.brewaucracy_food_truck_today
             icon: mdi:truck
             primary: >-
               {{ 'Not yet announced' if states(entity) in ['unknown',
@@ -36,7 +36,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -65,7 +65,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -94,7 +94,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -123,7 +123,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -152,7 +152,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -181,7 +181,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -210,7 +210,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -239,7 +239,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -268,7 +268,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -297,7 +297,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -326,7 +326,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -355,7 +355,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -384,7 +384,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -413,7 +413,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -442,7 +442,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -471,7 +471,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -500,7 +500,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
@@ -529,7 +529,7 @@ views:
               states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
               s.startswith(b ~ ' - ') else s }}
             secondary: >-
-              {%- set pref = states('input_select.brewaucracy_preferred_pour') |
+              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
               int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
               -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
               {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
