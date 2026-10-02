@@ -24,6 +24,22 @@ Remember that food trucks are on a best-effort basis, and they sometimes need to
 
 Copy `custom_components/brewaucracy/` to `/config/custom_components/`, restart Home Assistant, then add the integration as per step 4 above.
 
+## Dashboards
+
+I've also created a couple dashboards (with the help of Claude). `dashboard-desktop.yaml` is a four-column large format dashboard, for use on desktops and tablets. `dashboard-mobile.yaml` is a smaller one-column dashboard, for use on mobile phones.
+
+Both of them require [Mushroom](https://github.com/piitaya/lovelace-mushroom) to be installed - without it, the cards will just render as errors.
+
+To use one:
+
+1. Settings -> Dashboards -> Add dashboard -> New dashboard from scratch, and give it a name.
+2. Open the new dashboard, then pencil icon -> three-dot menu -> Raw configuration editor.
+3. Delete what's there, paste in the contents of the YAML file, and Save.
+
+**Dashboards aren't managed by the integration**, so once you've created them, they're yours to feed & water. Updating the integration won't change it, so see them as a starting point and tweak away. Equally, if I change the YAML here later, you'd need to re-paste it to pick that up.
+
+The dashboards make assumptions about your entity names, but as long as you didn't end up with things like `sensor.brewaucracy_tap_00_02`, you should be fine.
+
 
 ## Entities
 
