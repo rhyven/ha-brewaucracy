@@ -27,7 +27,8 @@ views:
           - type: heading
             heading: Presently Sanctioned Potable Intoxicants
             heading_style: title
-          - type: custom:mushroom-template-card
+          - &tap
+            type: custom:mushroom-template-card
             entity: sensor.brewaucracy_tap_00
             picture: '{{ state_attr(entity, ''entity_picture'') }}'
             badge_text: '{{ state_attr(entity, ''tap'') }}'
@@ -56,495 +57,104 @@ views:
               - condition: state
                 entity: sensor.brewaucracy_tap_00
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_01
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_01
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_02
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_02
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_03
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_03
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_04
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_04
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_05
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_05
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_06
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_06
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_07
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_07
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_08
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_08
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_09
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_09
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_10
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_10
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_11
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_11
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_12
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_12
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_13
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_13
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_14
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_14
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_15
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_15
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_16
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_16
                 state_not: Not in Service
-          - type: custom:mushroom-template-card
+          - <<: *tap
             entity: sensor.brewaucracy_tap_17
-            picture: '{{ state_attr(entity, ''entity_picture'') }}'
-            badge_text: '{{ state_attr(entity, ''tap'') }}'
-            primary: >-
-              {%- set b = state_attr(entity, 'brewery') or '' -%} {%- set s =
-              states(entity) -%} {{ s[(b ~ ' - ') | length:] if b and
-              s.startswith(b ~ ' - ') else s }}
-            secondary: >-
-              {%- set pref = states('select.brewaucracy_preferred_vessel_size') |
-              int(0) -%} {%- set p = state_attr(entity, 'prices') or [] | list
-              -%} {%- set by_vol = p | sort(attribute='volume_ml') | list -%}
-              {%- set fit = by_vol | selectattr('volume_ml', 'le', pref) | list
-              -%} {%- if not by_vol -%}{%- set pick = none -%} {%- elif pref <=
-              0 -%}{%- set pick = by_vol | last -%} {%- elif fit -%}{%- set pick
-              = fit | last -%} {%- else -%}{%- set pick = by_vol | first -%} {%-
-              endif -%} {%- set abv = state_attr(entity, 'abv') -%} {{
-              ([state_attr(entity, 'brewery'), state_attr(entity, 'style'),
-              ('%.1f%%' | format(abv)) if abv else ''] | select | join(' · '))
-                 ~ ('\n$' ~ ('%.2f' | format(pick.amount)) ~ ' / ' ~ pick.volume_ml ~ 'ml' if pick else '') }}
-            multiline_secondary: true
-            tap_action:
-              action: more-info
-            grid_options:
-              columns: full
             visibility:
               - condition: state
                 entity: sensor.brewaucracy_tap_17
